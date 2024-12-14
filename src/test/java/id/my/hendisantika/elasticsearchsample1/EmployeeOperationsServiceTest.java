@@ -3,6 +3,10 @@ package id.my.hendisantika.elasticsearchsample1;
 import id.my.hendisantika.elasticsearchsample1.service.EmployeeOperationsService;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.client.ClientConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+import org.springframework.util.Assert;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -32,4 +36,18 @@ public class EmployeeOperationsServiceTest {
             .withEnv("discovery.type", "single-node")
             .withEnv("xpack.security.enabled", "false");
     private EmployeeOperationsService employeeOperationsService;
+
+    @Configuration
+    static class TestConfiguration extends ElasticsearchConfiguration {
+        @Override
+        public ClientConfiguration clientConfiguration() {
+            elasticsearchContainer.start();
+            Assert.notNull(elasticsearchContainer, "TestContainer is not initialized!");
+
+            return ClientConfiguration.builder() //
+                    .connectedTo(elasticsearchContainer.getContainerIpAddress() + ":" +
+                            elasticsearchContainer.getMappedPort(9200)) //
+                    .build();
+        }
+    }
 }
