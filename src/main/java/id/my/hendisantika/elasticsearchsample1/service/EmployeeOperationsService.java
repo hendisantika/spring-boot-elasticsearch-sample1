@@ -28,4 +28,8 @@ public class EmployeeOperationsService {
     public Employee updateEmployee(Employee employee) {
         return elasticsearchOperations.save(employee);
     }
+
+    public void deleteEmployee(String employeeId) {
+        elasticsearchOperations.delete(employeeId, Employee.class);
+    }
 }
