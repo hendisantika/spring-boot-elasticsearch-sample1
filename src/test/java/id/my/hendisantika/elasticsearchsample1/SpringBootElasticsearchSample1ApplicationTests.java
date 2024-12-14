@@ -37,8 +37,6 @@ class SpringBootElasticsearchSample1ApplicationTests {
             .withExposedPorts(9200)
             .withEnv("discovery.type", "single-node")
             .withEnv("xpack.security.enabled", "false");
-    private EmployeeRepositoryService employeeRepositoryService;
-
 
     @Configuration
     @EnableElasticsearchRepositories(basePackages = "id.my.hendisantika.elasticsearchsample1")
