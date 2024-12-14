@@ -1,5 +1,6 @@
 package id.my.hendisantika.elasticsearchsample1.service;
 
+import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
@@ -20,4 +21,7 @@ public class EmployeeOperationsService {
 
     private final ElasticsearchOperations elasticsearchOperations;
 
+    public Employee createEmployee(Employee employee) {
+        return elasticsearchOperations.save(employee);
+    }
 }
