@@ -17,6 +17,7 @@ import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -83,6 +84,22 @@ public class EmployeeOperationsServiceTest {
         assertNotNull(savedEmployee);
         assertNotNull(savedEmployee.getEmployeeId());
 
+        employeeOperationsService.deleteEmployee(savedEmployee.getEmployeeId());
+    }
+
+    @Test
+    void updateEmployee() {
+        Employee employee = new Employee();
+        employee.setName("John");
+        employee.setSalary(20000);
+
+        Employee savedEmployee = employeeOperationsService.createEmployee(employee);
+        assertNotNull(savedEmployee);
+        assertNotNull(savedEmployee.getEmployeeId());
+
+        savedEmployee.setName("John Doe");
+        Employee updatedEmployee = employeeOperationsService.updateEmployee(savedEmployee);
+        assertEquals("John Doe", updatedEmployee.getName());
         employeeOperationsService.deleteEmployee(savedEmployee.getEmployeeId());
     }
 }
