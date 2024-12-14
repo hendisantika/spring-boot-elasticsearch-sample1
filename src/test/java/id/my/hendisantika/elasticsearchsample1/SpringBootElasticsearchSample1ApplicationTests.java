@@ -17,6 +17,7 @@ import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -72,6 +73,23 @@ class SpringBootElasticsearchSample1ApplicationTests {
 
         assertNotNull(savedEmployee);
         assertNotNull(savedEmployee.getEmployeeId());
+
+        employeeRepositoryService.deleteEmployee(savedEmployee.getEmployeeId());
+    }
+
+    @Test
+    void updateEmployee() {
+        Employee employee = new Employee();
+        employee.setName("Clark");
+        employee.setSalary(40000);
+
+        Employee savedEmployee = employeeRepositoryService.createEmployee(employee);
+        assertNotNull(savedEmployee);
+        assertNotNull(savedEmployee.getEmployeeId());
+
+        savedEmployee.setName("Clark Kent");
+        Employee updatedEmployee = employeeRepositoryService.updateEmployee(savedEmployee);
+        assertEquals("Clark Kent", updatedEmployee.getName());
 
         employeeRepositoryService.deleteEmployee(savedEmployee.getEmployeeId());
     }
