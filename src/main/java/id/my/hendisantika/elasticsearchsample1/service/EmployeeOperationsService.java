@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,4 +55,11 @@ public class EmployeeOperationsService {
 
         return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
+
+    public List<Employee> searchStringQuery(String name) {
+        Query query = new StringQuery("{ \"match\": { \"name\": { \"query\": \"" + name + "\" } } } ");
+        SearchHits<Employee> searchHits = elasticsearchOperations.search(query, Employee.class);
+        return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
+    }
+
 }
