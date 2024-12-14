@@ -102,4 +102,23 @@ public class EmployeeOperationsServiceTest {
         assertEquals("John Doe", updatedEmployee.getName());
         employeeOperationsService.deleteEmployee(savedEmployee.getEmployeeId());
     }
+
+    @Test
+    void getEmployee() throws InterruptedException {
+        Employee employee = new Employee();
+        employee.setName("John");
+        employee.setSalary(20000);
+
+        Employee savedEmployee = employeeOperationsService.createEmployee(employee);
+
+        Thread.sleep(1000);
+        Employee fetchedEmployee = employeeOperationsService.getEmployee(savedEmployee.getEmployeeId());
+
+        assertNotNull(fetchedEmployee);
+        assertEquals(savedEmployee.getEmployeeId(), fetchedEmployee.getEmployeeId());
+        assertEquals(20000, fetchedEmployee.getSalary());
+        assertEquals("John", fetchedEmployee.getName());
+
+        employeeOperationsService.deleteEmployee(savedEmployee.getEmployeeId());
+    }
 }
