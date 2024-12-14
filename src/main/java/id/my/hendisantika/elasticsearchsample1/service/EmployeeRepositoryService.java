@@ -5,6 +5,7 @@ import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,4 +41,7 @@ public class EmployeeRepositoryService {
         return employeeOptional.orElse(null);
     }
 
+    public List<Employee> searchEmployeeWithSalaryBetween(long startingSalary, long endingSalary) {
+        return employeeRepository.findBySalaryBetween(startingSalary, endingSalary);
+    }
 }
