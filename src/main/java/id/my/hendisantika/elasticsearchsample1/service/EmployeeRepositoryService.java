@@ -1,5 +1,6 @@
 package id.my.hendisantika.elasticsearchsample1.service;
 
+import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,4 +21,7 @@ public class EmployeeRepositoryService {
 
     private final EmployeeRepository employeeRepository;
 
+    public Employee createEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
 }
