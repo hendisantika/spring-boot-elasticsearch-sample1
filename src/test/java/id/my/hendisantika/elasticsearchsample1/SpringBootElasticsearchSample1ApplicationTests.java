@@ -1,8 +1,10 @@
 package id.my.hendisantika.elasticsearchsample1;
 
+import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,8 @@ import org.springframework.util.Assert;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @Testcontainers
@@ -56,5 +60,19 @@ class SpringBootElasticsearchSample1ApplicationTests {
     @AfterAll
     public void cleanup() {
         elasticsearchContainer.stop();
+    }
+
+    @Test
+    void createEmployee() {
+        Employee employee = new Employee();
+        employee.setName("Bruce");
+        employee.setSalary(30000);
+
+        Employee savedEmployee = employeeRepositoryService.createEmployee(employee);
+
+        assertNotNull(savedEmployee);
+        assertNotNull(savedEmployee.getEmployeeId());
+
+        employeeRepositoryService.deleteEmployee(savedEmployee.getEmployeeId());
     }
 }
