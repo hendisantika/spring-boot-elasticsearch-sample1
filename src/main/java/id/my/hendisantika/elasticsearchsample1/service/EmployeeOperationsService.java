@@ -2,6 +2,7 @@ package id.my.hendisantika.elasticsearchsample1.service;
 
 import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -58,6 +59,20 @@ public class EmployeeOperationsService {
 
     public List<Employee> searchStringQuery(String name) {
         Query query = new StringQuery("{ \"match\": { \"name\": { \"query\": \"" + name + "\" } } } ");
+        SearchHits<Employee> searchHits = elasticsearchOperations.search(query, Employee.class);
+        return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
+    }
+
+    public List<Employee> getAllEmployeesBySalary(long salary) {
+        Query query = NativeQuery.builder()
+                .withQuery(q -> q
+                        .match(m -> m
+                                .field("salary")
+                                .query(salary)
+                        )
+                )
+                .build();
+
         SearchHits<Employee> searchHits = elasticsearchOperations.search(query, Employee.class);
         return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
