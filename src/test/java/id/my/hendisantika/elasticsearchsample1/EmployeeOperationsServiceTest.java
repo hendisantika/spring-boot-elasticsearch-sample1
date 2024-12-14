@@ -1,6 +1,7 @@
 package id.my.hendisantika.elasticsearchsample1;
 
 import id.my.hendisantika.elasticsearchsample1.service.EmployeeOperationsService;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,10 @@ public class EmployeeOperationsServiceTest {
     @BeforeAll
     void setup() {
         this.employeeOperationsService = new EmployeeOperationsService(operations);
+    }
+
+    @AfterAll
+    public void cleanup() {
+        elasticsearchContainer.stop();
     }
 }
