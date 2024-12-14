@@ -3,7 +3,14 @@ package id.my.hendisantika.elasticsearchsample1.service;
 import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,5 +42,16 @@ public class EmployeeOperationsService {
 
     public Employee getEmployee(String employeeId) {
         return elasticsearchOperations.get(employeeId, Employee.class);
+    }
+
+    public List<Employee> searchEmployeeWithSalaryBetween(long startingSalary, long endingSalary) {
+        Criteria criteria = new Criteria("salary")
+                .greaterThan(startingSalary).lessThan(endingSalary);
+        Query query = new CriteriaQuery(criteria);
+
+        SearchHits<Employee> searchHits = elasticsearchOperations
+                .search(query, Employee.class);
+
+        return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
 }
