@@ -8,8 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Created by IntelliJ IDEA.
@@ -55,5 +57,15 @@ public class EmployeeRepositoryService {
 
     public List<Employee> getEmployeeByName(String name) {
         return employeeRepository.findByName(name);
+    }
+
+    public List<Employee> getEmployeeUsingScroll(Long salary) {
+        Stream<Employee> stream = employeeRepository.findAllBySalary(salary);
+
+        List<Employee> employees = new ArrayList<>();
+        employees = stream.toList();
+        stream.close();
+
+        return employees;
     }
 }
