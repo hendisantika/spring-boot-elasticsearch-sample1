@@ -1,8 +1,10 @@
 package id.my.hendisantika.elasticsearchsample1.entity;
 
-import co.elastic.clients.elasticsearch._types.mapping.FieldType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * Created by IntelliJ IDEA.
