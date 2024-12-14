@@ -5,6 +5,8 @@ import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-boot-elasticsearch-sample1
@@ -32,4 +34,10 @@ public class EmployeeRepositoryService {
     public void deleteEmployee(String employeeId) {
         employeeRepository.deleteById(employeeId);
     }
+
+    public Employee getEmployee(String employeeId) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+        return employeeOptional.orElse(null);
+    }
+
 }
