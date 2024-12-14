@@ -19,6 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -120,5 +121,18 @@ public class EmployeeOperationsServiceTest {
         assertEquals("John", fetchedEmployee.getName());
 
         employeeOperationsService.deleteEmployee(savedEmployee.getEmployeeId());
+    }
+
+    @Test
+    void deleteEmployee() {
+        Employee employee = new Employee();
+        employee.setName("John");
+        employee.setSalary(20000);
+        Employee savedEmployee = employeeOperationsService.createEmployee(employee);
+
+        employeeOperationsService.deleteEmployee(savedEmployee.getEmployeeId());
+
+        Employee fetchedEmployee = employeeOperationsService.getEmployee(savedEmployee.getEmployeeId());
+        assertNull(fetchedEmployee);
     }
 }
