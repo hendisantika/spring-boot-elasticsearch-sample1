@@ -2,6 +2,7 @@ package id.my.hendisantika.elasticsearchsample1;
 
 import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
+import id.my.hendisantika.elasticsearchsample1.service.EmployeeRepositoryService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SpringBootElasticsearchSample1ApplicationTests {
+
+    private EmployeeRepositoryService employeeRepositoryService;
 
     @Container
     public static ElasticsearchContainer elasticsearchContainer = new ElasticsearchContainer(
