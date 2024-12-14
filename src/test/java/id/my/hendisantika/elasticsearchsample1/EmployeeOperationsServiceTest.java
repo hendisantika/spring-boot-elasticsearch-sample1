@@ -173,4 +173,25 @@ public class EmployeeOperationsServiceTest {
 
         assertEquals(1, fetchedEmployees.size());
     }
+
+    @Test
+    void getAllEmployeesBySalary() throws InterruptedException {
+        Employee employee = new Employee();
+        employee.setName("John");
+        employee.setSalary(20000);
+        Employee john = employeeOperationsService.createEmployee(employee);
+
+        Employee employee2 = new Employee();
+        employee2.setName("Ronaldo");
+        employee2.setSalary(20000);
+        Employee ronaldo = employeeOperationsService.createEmployee(employee2);
+
+        Thread.sleep(1000);
+        List<Employee> fetchedEmployees = employeeOperationsService.getAllEmployeesBySalary(20000);
+
+        employeeOperationsService.deleteEmployee(john.getEmployeeId());
+        employeeOperationsService.deleteEmployee(ronaldo.getEmployeeId());
+
+        assertEquals(2, fetchedEmployees.size());
+    }
 }
