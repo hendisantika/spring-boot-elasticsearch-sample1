@@ -1,6 +1,10 @@
 package id.my.hendisantika.elasticsearchsample1;
 
+import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -39,5 +43,18 @@ class SpringBootElasticsearchSample1ApplicationTests {
                             elasticsearchContainer.getMappedPort(9200)) //
                     .build();
         }
+    }
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @BeforeAll
+    public void setup() {
+        this.employeeRepositoryService = new EmployeeRepositoryService(employeeRepository);
+    }
+
+    @AfterAll
+    public void cleanup() {
+        elasticsearchContainer.stop();
     }
 }
