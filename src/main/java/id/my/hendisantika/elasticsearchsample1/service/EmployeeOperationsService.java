@@ -32,4 +32,8 @@ public class EmployeeOperationsService {
     public void deleteEmployee(String employeeId) {
         elasticsearchOperations.delete(employeeId, Employee.class);
     }
+
+    public Employee getEmployee(String employeeId) {
+        return elasticsearchOperations.get(employeeId, Employee.class);
+    }
 }
