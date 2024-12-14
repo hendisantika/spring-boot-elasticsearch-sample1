@@ -2,16 +2,19 @@ package id.my.hendisantika.elasticsearchsample1.service;
 
 import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.SearchHitsIterator;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,4 +80,21 @@ public class EmployeeOperationsService {
         return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
 
+    public List<Employee> getEmployeeUsingScroll() {
+        Query searchQuery = NativeQuery.builder()
+                .withQuery(q -> q
+                        .matchAll(ma -> ma))
+                .withFields("salary")
+                .withPageable(PageRequest.of(0, 10))
+                .build();
+
+        SearchHitsIterator<Employee> stream = elasticsearchOperations.searchForStream(searchQuery, Employee.class);
+
+        List<Employee> employees = new ArrayList<>();
+        while (stream.hasNext()) {
+            employees.add(stream.next().getContent());
+        }
+        stream.close();
+        return employees;
+    }
 }
