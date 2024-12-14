@@ -17,6 +17,8 @@ import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -127,4 +129,25 @@ class SpringBootElasticsearchSample1ApplicationTests {
         assertNull(fetchedEmployee);
     }
 
+    @Test
+    void searchEmployeeWithSalaryBetween() throws InterruptedException {
+        Employee employee = new Employee();
+        employee.setName("Bruce");
+        employee.setSalary(20000);
+        Employee john = employeeRepositoryService.createEmployee(employee);
+
+
+        Employee employee2 = new Employee();
+        employee2.setName("Clark");
+        employee2.setSalary(30000);
+        Employee ronaldo = employeeRepositoryService.createEmployee(employee2);
+
+        Thread.sleep(1000);
+        List<Employee> fetchedEmployees = employeeRepositoryService.searchEmployeeWithSalaryBetween(10000L, 40000L);
+
+        employeeRepositoryService.deleteEmployee(john.getEmployeeId());
+        employeeRepositoryService.deleteEmployee(ronaldo.getEmployeeId());
+
+        assertEquals(2, fetchedEmployees.size());
+    }
 }
