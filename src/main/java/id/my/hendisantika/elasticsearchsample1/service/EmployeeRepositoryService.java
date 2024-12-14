@@ -52,4 +52,8 @@ public class EmployeeRepositoryService {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("salary"));
         return employeeRepository.findBySalary(salary, pageable).getContent();
     }
+
+    public List<Employee> getEmployeeByName(String name) {
+        return employeeRepository.findByName(name);
+    }
 }
