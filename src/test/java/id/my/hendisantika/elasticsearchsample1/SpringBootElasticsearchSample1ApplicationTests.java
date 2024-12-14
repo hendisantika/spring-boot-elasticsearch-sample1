@@ -150,4 +150,18 @@ class SpringBootElasticsearchSample1ApplicationTests {
 
         assertEquals(2, fetchedEmployees.size());
     }
+
+    @Test
+    void searchStringQuery() throws InterruptedException {
+        Employee employee = new Employee();
+        employee.setName("Bruce");
+        employee.setSalary(20000);
+        Employee john = employeeRepositoryService.createEmployee(employee);
+
+        Thread.sleep(1000);
+        List<Employee> fetchedEmployees = employeeRepositoryService.getEmployeeByName("Bruce");
+        employeeRepositoryService.deleteEmployee(john.getEmployeeId());
+
+        assertEquals(1, fetchedEmployees.size());
+    }
 }
