@@ -24,4 +24,8 @@ public class EmployeeOperationsService {
     public Employee createEmployee(Employee employee) {
         return elasticsearchOperations.save(employee);
     }
+
+    public Employee updateEmployee(Employee employee) {
+        return elasticsearchOperations.save(employee);
+    }
 }
