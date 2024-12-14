@@ -1,11 +1,14 @@
 package id.my.hendisantika.elasticsearchsample1;
 
 import id.my.hendisantika.elasticsearchsample1.service.EmployeeOperationsService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.util.Assert;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -49,5 +52,13 @@ public class EmployeeOperationsServiceTest {
                             elasticsearchContainer.getMappedPort(9200)) //
                     .build();
         }
+    }
+
+    @Autowired
+    private ElasticsearchOperations operations;
+
+    @BeforeAll
+    void setup() {
+        this.employeeOperationsService = new EmployeeOperationsService(operations);
     }
 }
