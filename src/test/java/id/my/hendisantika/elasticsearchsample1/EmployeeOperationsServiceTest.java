@@ -215,4 +215,20 @@ public class EmployeeOperationsServiceTest {
 
         assertEquals(2, fetchedEmployees.size());
     }
+
+    private boolean dockerIsAvailable() {
+        try {
+            // Run "docker --version" command
+            Process process = Runtime.getRuntime().exec("docker --version");
+
+            // Wait for the process to finish
+            int exitCode = process.waitFor();
+
+            // Check if the exit code is 0 (success)
+            return exitCode == 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
