@@ -3,6 +3,9 @@ package id.my.hendisantika.elasticsearchsample1.service;
 import id.my.hendisantika.elasticsearchsample1.entity.Employee;
 import id.my.hendisantika.elasticsearchsample1.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +46,10 @@ public class EmployeeRepositoryService {
 
     public List<Employee> searchEmployeeWithSalaryBetween(long startingSalary, long endingSalary) {
         return employeeRepository.findBySalaryBetween(startingSalary, endingSalary);
+    }
+
+    public List<Employee> searchSalaryQuery(Long salary) {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("salary"));
+        return employeeRepository.findBySalary(salary, pageable).getContent();
     }
 }
