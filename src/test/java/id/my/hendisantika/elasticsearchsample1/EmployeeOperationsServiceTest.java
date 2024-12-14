@@ -159,4 +159,18 @@ public class EmployeeOperationsServiceTest {
 
         assertEquals(2, fetchedEmployees.size());
     }
+
+    @Test
+    void searchStringQuery() throws InterruptedException {
+        Employee employee = new Employee();
+        employee.setName("John");
+        employee.setSalary(20000);
+        Employee john = employeeOperationsService.createEmployee(employee);
+
+        Thread.sleep(1000);
+        List<Employee> fetchedEmployees = employeeOperationsService.searchStringQuery("John");
+        employeeOperationsService.deleteEmployee(john.getEmployeeId());
+
+        assertEquals(1, fetchedEmployees.size());
+    }
 }
