@@ -43,10 +43,11 @@ public class EmployeeOperationsServiceTest {
      */
     @Container
     public static ElasticsearchContainer elasticsearchContainer = new ElasticsearchContainer(
-            "docker.elastic.co/elasticsearch/elasticsearch:8.16.1")
+            "docker.elastic.co/elasticsearch/elasticsearch:9.4.8")
             .withExposedPorts(9200)
             .withEnv("discovery.type", "single-node")
-            .withEnv("xpack.security.enabled", "false");
+            .withEnv("xpack.security.enabled", "false")
+            .withEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m");
     private EmployeeOperationsService employeeOperationsService;
 
     @Configuration
@@ -57,7 +58,7 @@ public class EmployeeOperationsServiceTest {
             Assert.notNull(elasticsearchContainer, "TestContainer is not initialized!");
 
             return ClientConfiguration.builder() //
-                    .connectedTo(elasticsearchContainer.getContainerIpAddress() + ":" +
+                    .connectedTo(elasticsearchContainer.getHost() + ":" +
                             elasticsearchContainer.getMappedPort(9200)) //
                     .build();
         }
